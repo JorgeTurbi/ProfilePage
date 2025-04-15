@@ -1,0 +1,140 @@
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="w-100" style="max-width: 700px;">
+
+    <!-- Header with profile image -->
+    <div class="profile-header text-center py-4 bg-dark text-white">
+      <div class="profile-image-container mb-2">
+        <img [src]="profileData.profileImage" alt="Profile Image" class="profile-image rounded-circle" />
+      </div>
+      <h2>{{ profileData.name }}</h2>
+      <p class="text-white-50">{{ profileData.position }}</p>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons d-flex bg-secondary text-white">
+      <a [href]="'tel:' + profileData.contact.mobile" class="action-button flex-fill text-center py-3 text-white text-decoration-none border-end">
+        <i class="bi bi-telephone"></i>
+        <div class="action-text">CALL</div>
+      </a>
+      <a [href]="'mailto:' + profileData.contact.email" class="action-button flex-fill text-center py-3 text-white text-decoration-none border-end">
+        <i class="bi bi-envelope"></i>
+        <div class="action-text">EMAIL</div>
+      </a>
+      <a [href]="'https://www.google.com/maps/search/?api=1&query=' + profileData.location.latitude + ',' + profileData.location.longitude"
+         target="_blank"
+         rel="noopener"
+         class="action-button flex-fill text-center py-3 text-white text-decoration-none">
+        <i class="bi bi-geo-alt"></i>
+        <div class="action-text">DIRECTIONS</div>
+      </a>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card">
+      <div class="card-body">
+        <!-- Description -->
+        <div class="mb-4">
+          <p *ngFor="let paragraph of profileData.description">{{ paragraph }}</p>
+        </div>
+
+        <!-- Contact information -->
+        <div class="contact-info mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="contact-icon me-3"><i class="bi bi-telephone"></i></div>
+            <div>
+              <div>{{ profileData.contact.mobile }}</div>
+              <div class="text-muted small">Mobile</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <div class="contact-icon me-3"><i class="bi bi-telephone"></i></div>
+            <div>
+              <div>{{ profileData.contact.telephone }}</div>
+              <div class="text-muted small">Telephone</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <div class="contact-icon me-3"><i class="bi bi-envelope"></i></div>
+            <div>
+              <div>{{ profileData.contact.email }}</div>
+              <div class="text-muted small">Email</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Company information -->
+        <div class="company-info mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="contact-icon me-3"><i class="bi bi-building"></i></div>
+            <div>
+              <div>{{ profileData.company.name }}</div>
+              <div class="text-muted small">{{ profileData.company.position }}</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <div class="contact-icon me-3"><i class="bi bi-geo-alt"></i></div>
+            <div>
+              <div>{{ profileData.company.address.street }}</div>
+              <div>{{ profileData.company.address.city }}, {{ profileData.company.address.region }} {{ profileData.company.address.postalCode }}</div>
+              <div>{{ profileData.company.address.country }}</div>
+              <div class="show-map mt-1">
+                <a href="javascript:void(0)" class="text-danger" (click)="toggleMap()">SHOW ON MAP</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Embedded Google Map -->
+          <div *ngIf="showMap" class="map-container mb-3">
+            <div class="map-header bg-secondary text-white p-3 d-flex align-items-center">
+              <i class="bi bi-arrow-left me-2"></i>
+              <span>Location</span>
+            </div>
+            <div class="map-content">
+              <iframe
+                width="100%"
+                height="300"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                [src]="'https://maps.google.com/maps?q=' + profileData.location.latitude + ',' + profileData.location.longitude + '&hl=es&z=15&output=embed' | safeResourceUrl">
+              </iframe>
+              <div class="map-info p-3">
+                <div class="text-muted mb-2">Where</div>
+                <div>{{ profileData.company.address.street }}</div>
+                <div>{{ profileData.company.address.city }}, {{ profileData.company.address.region }} {{ profileData.company.address.postalCode }}</div>
+                <div>{{ profileData.company.address.country }}</div>
+                <div class="mt-2">
+                  <a href="javascript:void(0)" class="text-danger">SHOW DIRECTIONS</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center mb-3">
+            <div class="contact-icon me-3"><i class="bi bi-globe"></i></div>
+            <div>
+              <div>{{ profileData.company.website }}</div>
+              <div class="text-muted small">Website</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom action buttons -->
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <button class="btn btn-danger w-100 mb-3" (click)="downloadVcard()">
+              <i class="bi bi-download me-2"></i> DOWNLOAD VCARD
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-outline-secondary w-100" (click)="sharePage()">
+              <i class="bi bi-share me-2"></i> SHARE THIS PAGE
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
